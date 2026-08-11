@@ -1,0 +1,42 @@
+/* Shared visual tokens for the isogeny teaching decks. */
+:root {
+  color-scheme: dark;
+  --paper: #111a33;
+  --panel: #1e2a4a;
+  --text: #f6f1ec;
+  --alice: #f07fa9;
+  --bob: #7c78e8;
+  --metal: #d9a942;
+  --soft: #cfc8c4;
+  --shadow: 0 24px 70px rgba(17, 26, 51, 0.48);
+  --border: rgba(217, 169, 66, 0.42);
+  --surface: rgba(17, 26, 51, 0.54);
+  --stage-start: var(--panel);
+  --stage-end: var(--paper);
+  --channel: #294271;
+  --note-surface: rgba(17, 26, 51, 0.42);
+}
+
+* { box-sizing: border-box; }
+
+:focus-visible {
+  outline: 2px solid var(--metal);
+  outline-offset: 3px;
+}
+
+.sk-eyebrow {
+  color: var(--metal);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.sk-note {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  color: var(--soft);
+  background: var(--note-surface);
+  font-weight: 700;
+  line-height: 1.45;
+  text-align: center;
+}

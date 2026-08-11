@@ -1,0 +1,27 @@
+/* Light, near-monochrome theme inspired by a black-and-white classical outfit.
+   Load this file after theme.css and the lesson's own CSS. */
+:root[data-theme="classic-light"] {
+  color-scheme: light;
+  --paper: #efedeb;
+  --panel: #faf9f7;
+  --text: #29272a;
+  --alice: #9a667e;
+  --bob: #777080;
+  --metal: #8b7049;
+  --soft: #69646a;
+  --border: #c9c1b9;
+  --surface: rgba(255, 255, 255, .72);
+  --stage-start: #faf9f7;
+  --stage-end: #e9e6e2;
+  --channel: #49454a;
+  --note-surface: rgba(255, 255, 255, .62);
+  --shadow: 0 18px 48px rgba(47, 42, 46, .13);
+}
+
+html[data-theme="classic-light"] body { background: var(--paper); font-family: Georgia, "Times New Roman", serif; }
+html[data-theme="classic-light"] .lesson-shell { background-image: radial-gradient(rgba(63, 55, 61, .08) .65px, transparent .65px); background-size: 5px 5px; }
+html[data-theme="classic-light"] h1, html[data-theme="classic-light"] .controls, html[data-theme="classic-light"] .sk-eyebrow, html[data-theme="classic-light"] .sk-note { font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+html[data-theme="classic-light"] h1 { font-weight: 650; letter-spacing: -.035em; }
+html[data-theme="classic-light"] .stage { border-radius: 4px; }
+html[data-theme="classic-light"] .person, html[data-theme="classic-light"] .public, html[data-theme="classic-light"] .channel { box-shadow: 0 8px 22px rgba(55, 48, 54, .06); }
+html[data-theme="classic-light"] .controls button, html[data-theme="classic-light"] output { background: rgba(255, 255, 255, .72); }
