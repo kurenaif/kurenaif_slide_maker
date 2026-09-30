@@ -1,0 +1,78 @@
+:root {
+  font-family: "Noto Sans JP", "Yu Gothic", "Meiryo", system-ui, sans-serif;
+  color: var(--text);
+  background: var(--paper);
+  font-synthesis: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+button { font: inherit; cursor: pointer; }
+button:disabled { cursor: default; opacity: .35; }
+button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold); outline-offset: 5px; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#lesson { width: 100%; max-width: 1980px; margin: 0 auto; padding: 28px 44px 24px; }
+.heading { height: 168px; }
+.topline { display: flex; align-items: center; justify-content: space-between; }
+.eyebrow { color: var(--gold); font-size: 15px; font-weight: 700; letter-spacing: .2em; }
+.edition { color: var(--muted); font-size: 15px; }
+#chapters { display: flex; gap: 30px; margin: 22px 0 21px; overflow-x: auto; scrollbar-width: thin; }
+#chapters button { white-space: nowrap; border: 0; background: transparent; color: var(--muted); font-size: 18px; padding: 0 0 6px; border-bottom: 2px solid transparent; }
+#chapters button[aria-current] { color: var(--gold); border-bottom-color: var(--gold); }
+#chapters .chapter-number { opacity: .65; font-size: .8em; margin-right: 9px; }
+h1 { margin: 0; font-size: 43px; line-height: 1.3; font-weight: 700; letter-spacing: .025em; text-wrap: balance; }
+#stage { height: 741px; display: flex; align-items: center; min-width: 0; }
+.diagram-scroll { width: 100%; overflow-x: auto; scrollbar-width: thin; }
+.diagram { width: 100%; display: block; }
+.diagram text { fill: var(--text); font-size: 28px; font-family: inherit; }
+.diagram .label { fill: var(--muted); font-size: 24px; }
+.diagram .large { font-size: 39px; font-weight: 650; }
+.diagram .code { font-family: "Cascadia Code", "Consolas", "DejaVu Sans Mono", monospace; font-size: 30px; }
+.diagram .accent { fill: var(--gold); }
+.diagram .muted { fill: var(--muted); }
+.diagram .syntax-type { fill: var(--syntax-type); }
+.diagram .syntax-keyword { fill: var(--syntax-keyword); }
+.diagram .syntax-call { fill: var(--syntax-call); }
+.panel { fill: var(--surface); stroke: var(--rule); stroke-width: 1.5; }
+.used { fill: var(--used); stroke: var(--used-edge); stroke-width: 2; }
+.free { fill: var(--free); stroke: var(--free-edge); stroke-width: 2; }
+.hatch { fill: url(#free-hatch); pointer-events: none; }
+.depth-0 { --swatch: var(--class-1); }
+.depth-1 { --swatch: var(--class-2); }
+.depth-2 { --swatch: var(--class-3); }
+.depth-3 { --swatch: var(--class-4); }
+.swatch { fill: var(--swatch); stroke: color-mix(in srgb, var(--swatch) 70%, white); stroke-width: 2; }
+.arrow { fill: none; stroke: var(--gold); stroke-width: 3.5; stroke-linejoin: round; }
+.arrow.bk { stroke: var(--muted); stroke-dasharray: 8 7; }
+.outline { fill: none; stroke: var(--gold); stroke-width: 3.5; pointer-events: none; }
+.divider { stroke: var(--rule); stroke-width: 1.5; }
+.controls { min-height: 59px; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.control-group { display: flex; gap: 12px; align-items: center; }
+.controls button { background: var(--surface); border: 1px solid var(--rule); border-radius: 7px; color: var(--soft); padding: 10px 16px; font-size: 16px; min-height: 42px; }
+.controls button:hover:not(:disabled) { border-color: var(--edge); }
+#next { border-color: var(--gold); color: var(--gold); }
+#counter { color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums; margin-left: 8px; }
+.key-hint { color: var(--muted); font-size: 14px; margin-right: 12px; }
+#speaker-notes { border-top: 1px solid var(--rule); margin-top: 26px; padding: 24px 0 0; max-width: 1100px; }
+#speaker-notes h2 { color: var(--gold); font-size: 21px; margin: 0 0 12px; }
+#speaker-notes p { color: var(--soft); font-size: 20px; line-height: 1.8; white-space: pre-line; }
+html.sk-presentation { overflow: hidden; }
+.sk-presentation #lesson { width: 1980px; height: 1020px; max-width: none; }
+@media (max-width: 850px) {
+  #lesson { padding: 22px 20px 155px; }
+  .heading { height: auto; }
+  .eyebrow { font-size: 11px; }
+  #chapters { margin: 21px 0; gap: 20px; }
+  #chapters button { font-size: 14px; }
+  h1 { font-size: clamp(24px, 4.5vw, 34px); line-height: 1.5; }
+  #stage { height: auto; min-height: 320px; padding: 26px 0; }
+  .diagram { min-width: 760px; }
+  .diagram.compact { min-width: 0; }
+  .controls { position: fixed; bottom: 0; left: 0; right: 0; z-index: 5; background: var(--paper); border-top: 1px solid var(--rule); padding: 10px 16px max(12px, env(safe-area-inset-bottom)); flex-wrap: wrap; gap: 10px; }
+  .control-group { gap: 8px; }
+  .controls button { min-height: 44px; padding: 9px 12px; font-size: 13px; }
+  #counter { font-size: 12px; margin: 0; }
+  .key-hint { display: none; }
+  #speaker-notes p { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; } }

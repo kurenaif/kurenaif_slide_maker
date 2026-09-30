@@ -1,25 +1,24 @@
 # HTML lesson template
 
-このディレクトリをコピーして、新しい教材を作る。
+リポジトリのルートで、このディレクトリを新しい教材へコピーする。
 
 ```bash
-cp -R templates/html-lesson projects/<lesson-id>
+mkdir -p lessons
+cp -R templates/html-lesson lessons/my-lesson
 ```
 
-作成後は、次の順で編集する。
+1. `storyboard.md` の学習目標・画面・ナレーション・完成条件を埋める。
+2. [デザイン方針](../../docs/design.md) を読み、テーマを選ぶ。既定は `midnight-dark`。`classic-light` に変える場合はHTMLの `data-theme` と台本の指定を揃える。
+3. `index.html` のタイトルと左上の分類表記を変える。
+4. `lesson.js` の `slides` を台本に合わせて編集する。`mount()` が図と手動アニメーションを作る。
+5. 教材固有の見た目を `lesson.css` に追加する。
 
-1. `storyboard.md` を埋める。
-2. `storyboard.md` のテーマを `classic-light` または `midnight-dark` から選び、`index.html` の `data-theme` に同じ値を設定する。
-3. `index.html` のタイトルとMathJax設定を確認する。
-4. `lesson.js` の `steps` を台本に合わせて実装する。
-5. `lesson.css` をその教材に合わせて調整する。
+HTML/CSS/JavaScriptが完成品で、ビルド不要。共有ファイルを含むリポジトリ一式があれば `index.html` をダブルクリックして開ける。配布するときも共有CSS・JSを一緒に渡す。
 
-`index.html` はダブルクリックで開ける。複数ファイルをまたぐESモジュールや共有JavaScriptを追加した場合だけ、ローカルHTTPサーバーを使う。
+右キー／Spaceでひとつの動き、左キーで一段戻る。ページに入っただけでは再生しない。`?step=1&cue=1` は2ページ目の最初の動きが完了した状態。操作の詳細はルートのREADMEを参照。
 
-ローカルHTTPサーバーを使う場合は、リポジトリのルートで次を実行する。
+初期サンプルは「参照先に矢印が届いてから囲う」「状態を変えてから別操作で参照を示す」の2ページ。具体的な教材へ置き換えて使う。さらにstack・循環リンク・分類の例は `examples/heap-memory/` にある。
 
-```bash
-python3 -m http.server 8765
-```
+数式が必要ならMathJaxをこの教材で読み込む。共通の表示制御はロード時とページ切り替え時に再タイプセットする。テンプレート自体はMathJaxや外部CDNに依存しない。
 
-その後、`http://localhost:8765/projects/<lesson-id>/` を開く。`←`、`→`、Space と `?step=0` が使える。
+HTTPで開く場合はルートで `python3 -m http.server 8766 --bind 127.0.0.1` を起動し、`http://localhost:8766/lessons/my-lesson/` を開く。

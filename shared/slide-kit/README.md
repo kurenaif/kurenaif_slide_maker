@@ -1,6 +1,38 @@
 # Slide Kit
 
-Small dependency-free modules for the interactive cryptography teaching decks.
+技術教材の共通部品。配色と演出の方針は [docs/design.md](../../docs/design.md) を参照。
+
+## 口頭説明・動画収録用の部品
+
+`templates/html-lesson/` と `examples/heap-memory/` は、次の通常スクリプトを順に読み込む。ビルドやESモジュールのfetchが不要なため、ローカルファイルとして開ける。
+
+```html
+<script src="../../shared/slide-kit/core/cues.js"></script>
+<script src="../../shared/slide-kit/core/arrows.js"></script>
+<script src="../../shared/slide-kit/core/presenter.js"></script>
+<script src="lesson.js"></script>
+```
+
+APIは `window.SlideKit` にある。
+
+| API | 用途 |
+| --- | --- |
+| `createCueMotion({ cues, render, onChange })` | 右キーごとに一区切り進む時計。既定は1.5倍速、開始時は停止 |
+| `cueProgress(index, progress, target)` | 再描画・巻き戻しに依存しない、指定した動きの進行度 |
+| `createArrow(path, { centre })` | 点線を保つ矢印描画。両端が矢印の線はcentreで中央から伸ばす |
+| `paintOutline(rect, progress)` | 矢印到着後の強調枠 |
+| `createArrowCycle(paths)` | 指定順の線を一周。全長に一度だけイーズイン・イーズアウト |
+| `createLessonPresenter({ slides })` | キー・ボタン、URL、発表メモ、収録サイズへの調整 |
+
+`slides` の各要素は `id`、`chapter`、`title`、`notes`、`mount(root, onChange)` を持つ。`mount` は図を置き、`createCueMotion` で作った時計を返す。シーンを離れると時計の `destroy()` が呼ばれる。具体例はテンプレートの `lesson.js` にある。
+
+`render(-1, 1)` は初期状態、`render(i, p)` はi番目の動きの進行度p。完成済みの状態へURLから移る場合も、前フレームに依存せず再現できるようにする。
+
+共通CSSは `ui/lesson.css`、配色は `ui/midnight-dark.css` と `ui/classic-light.css`。既存の `--metal` などのトークン名は互換用に残し、新しい表示では `--gold`、`--used`、`--free` など意味ごとの変数を使う。
+
+## 従来のESモジュール部品
+
+以下は従来の教材向けに維持している。直接importする場合はローカルHTTPサーバーを使う。新しい通常スクリプトのAPIと読み込み方法を混同しない。
 
 ## What belongs here
 

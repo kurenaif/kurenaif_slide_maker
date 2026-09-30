@@ -16,6 +16,23 @@
   --channel: #49454a;
   --note-surface: rgba(255, 255, 255, .62);
   --shadow: 0 18px 48px rgba(47, 42, 46, .13);
+  /* Semantic tokens for the optional manual-cue presentation shell. */
+  --gold: var(--metal);
+  --gold-panel: #e6dfd2;
+  --muted: #69646a;
+  --rule: #c9c1b9;
+  --edge: #8b818d;
+  --used: #e4e1de;
+  --used-edge: #a69b92;
+  --free: #d6d1db;
+  --free-edge: #958b9e;
+  --class-1: #dfdce3;
+  --class-2: #d0cbd5;
+  --class-3: #c3bcc9;
+  --class-4: #b7adbc;
+  --syntax-type: #3a5776;
+  --syntax-keyword: #684b77;
+  --syntax-call: #365e68;
 }
 
 html[data-theme="classic-light"] body { background: var(--paper); font-family: Georgia, "Times New Roman", serif; }
