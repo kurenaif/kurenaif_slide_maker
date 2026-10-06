@@ -1,0 +1,61 @@
+/* Formal Crypto Witch Costume: pearl, charcoal, restrained bronze and violet.
+   Colours are interpreted for readable slides, not sampled costume colours. */
+:root[data-theme="formal-witch"] {
+  color-scheme: dark;
+  --paper: #222125;
+  --surface: #2d2b31;
+  --text: #f5f1ef;
+  --soft: #d7d0d6;
+  --muted: #b7adb9;
+  --rule: #59505b;
+  --edge: #9c8b9c;
+  --gold: #d3b58a;
+  --gold-panel: #443c34;
+  --used: #3b3741;
+  --used-edge: #8f7e93;
+  --free: #504658;
+  --free-edge: #ac96b3;
+  --class-1: #3b394b;
+  --class-2: #4c4057;
+  --class-3: #5b435b;
+  --class-4: #6b4557;
+  --syntax-type: #b8c4dc;
+  --syntax-keyword: #d6b4dc;
+  --syntax-call: #e2d2bc;
+  --panel: var(--surface);
+  --metal: var(--gold);
+  --border: var(--rule);
+  --alice: #bd9ac4;
+  --bob: #a9a1c9;
+  --channel: #504658;
+  --stage-start: var(--surface);
+  --stage-end: var(--paper);
+  --note-surface: var(--surface);
+  --shadow: none;
+  --pearl: #f5f1ef;
+  --ink: #29262d;
+  --bronze-ink: #795b38;
+}
+html[data-theme="formal-witch"] body { background: var(--paper); }
+html[data-theme="formal-witch"] .heading { position: relative; isolation: isolate; color: var(--ink); }
+html[data-theme="formal-witch"] .heading::before {
+  content: ""; position: absolute; z-index: -1; inset: -28px -44px -5px;
+  background: var(--pearl); border-bottom: 1px solid var(--gold);
+}
+html[data-theme="formal-witch"] h1 { font-family: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif JP", serif; font-weight: 600; letter-spacing: .055em; }
+html[data-theme="formal-witch"] .heading .eyebrow { color: var(--bronze-ink); }
+html[data-theme="formal-witch"] .edition { color: var(--bronze-ink); display: flex; align-items: center; gap: 18px; }
+html[data-theme="formal-witch"] .edition::before { content: ""; width: 56px; height: 8px; border-block: 1px solid currentColor; }
+html[data-theme="formal-witch"] .edition::after { content: "◇"; font-size: 22px; }
+html[data-theme="formal-witch"] #chapters button { color: #68616c; }
+html[data-theme="formal-witch"] #chapters button[aria-current] { color: var(--bronze-ink); border-color: var(--bronze-ink); }
+html[data-theme="formal-witch"] .heading :focus-visible { outline-color: var(--bronze-ink); }
+html[data-theme="formal-witch"] .controls button { border-radius: 3px; }
+html[data-theme="formal-witch"] #next { color: var(--ink); background: var(--pearl); border-color: var(--pearl); }
+html[data-theme="formal-witch"] .panel { stroke: #85717e; }
+html[data-theme="formal-witch"] .lesson-shell .stage { border-radius: 3px; border-top: 3px double var(--gold); background: var(--surface); }
+@media (max-width: 850px) {
+  html[data-theme="formal-witch"] .heading::before { inset: -22px -20px -12px; }
+  html[data-theme="formal-witch"] .edition { gap: 9px; font-size: 12px; }
+  html[data-theme="formal-witch"] .edition::before { width: 24px; }
+}

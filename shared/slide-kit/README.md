@@ -30,6 +30,12 @@ APIは `window.SlideKit` にある。
 
 共通CSSは `ui/lesson.css`、配色は `ui/midnight-dark.css` と `ui/classic-light.css`。既存の `--metal` などのトークン名は互換用に残し、新しい表示では `--gold`、`--used`、`--free` など意味ごとの変数を使う。
 
+## テーマ選択
+
+配色に `ui/formal-witch.css` を追加。全サンプルは3テーマのCSSに加え、`ui/theme-picker.css` と `core/themes.js` を読み込む。`themes.js` はheadで同期読み込みし、URLのテーマを描画前に反映する。
+
+操作部に `<label class="theme-picker">テーマ <select data-theme-picker aria-label="カラーテーマ"></select></label>` を置くと、選択肢を自動で設定する。変更はCSSの切り替えだけなので、表示中のページ・動きの位置・停止状態を維持する。URLの `theme` で復元でき、未知のテーマ名は無視してHTMLの既定値を使う。
+
 ## 従来のESモジュール部品
 
 以下は従来の教材向けに維持している。直接importする場合はローカルHTTPサーバーを使う。新しい通常スクリプトのAPIと読み込み方法を混同しない。

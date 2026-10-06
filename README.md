@@ -4,6 +4,7 @@
 
 ```text
 templates/html-lesson/         # 新しい教材の複製元（2ページ）
+examples/formal-witch/         # 白黒の魔女衣装を参考にしたテーマサンプル（3ページ）
 examples/heap-memory/          # stack・状態変化・参照・リンク・分類の5ページ
 examples/key-exchange-basics/  # 従来の明るいテーマの鍵交換サンプル
 shared/slide-kit/              # 配色、表示、手動アニメーションなどの共通部品
@@ -30,6 +31,12 @@ AGENTS.md                     # 編集・確認時の規約
 | Home / End | 最初のページの初期状態 / 最後のページの完成状態 |
 
 `?step=3&cue=1` は4ページ目の最初の動きが完了した状態です。再読み込みしても自動再生しません。章ガイドを選ぶと、そのページの初期状態へ戻ります。
+
+## テーマを比較する
+
+`examples/formal-witch/index.html` を開くと、白黒の魔女衣装を参考にしたテーマを表示する。下部の「テーマ」で既存の紺・白と新しい白黒テーマを切り替えられる。テンプレートと既存のサンプルにも同じ選択を用意している（鍵交換サンプルでは図の上）。
+
+切り替えても表示中のページと動きの位置は維持する。選択はURLの `theme` に残るので、再読み込みやURL共有でも同じ見た目になる。例: `examples/heap-memory/index.html?theme=formal-witch&step=3&cue=1`。
 
 ## 新しい教材を作る
 
@@ -58,8 +65,9 @@ lessons/my-lesson/storyboard.md と docs/design.md を読み、Step 1〜4を実�
 | --- | --- |
 | `midnight-dark` | 今回の教材から引き継いだ紺・青・白・金。新しい教材の既定値 |
 | `classic-light` | 従来の白・黒・くすんだ紫・控えめな金。明るい教材用 |
+| `formal-witch` | 白い見出し帯・チャコールの図面・細いブロンズの線。魔女衣装を参考にしたテーマ |
 
-テーマは `storyboard.md` とHTML先頭の `data-theme` に同じ値を設定します。両テーマのCSSはあらかじめ読み込まれています。
+テーマは `storyboard.md` とHTML先頭の `data-theme` に同じ値を設定します。3テーマのCSSはあらかじめ読み込まれています。
 
 ```html
 <html lang="ja" data-theme="midnight-dark">

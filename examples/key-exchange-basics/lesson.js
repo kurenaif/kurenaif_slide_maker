@@ -51,6 +51,9 @@ const deck = createStepDeck({ length: steps.length, initialStep: readStepParam()
 elements.previous.addEventListener("click", () => deck.previous());
 elements.next.addEventListener("click", () => deck.next());
 window.addEventListener("keydown", (event) => {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.isComposing) return;
+  if (event.target.isContentEditable || event.target.closest?.('input, textarea, select')) return;
+  if (event.key === ' ' && event.target.closest?.('button, a')) return;
   if (event.key === "ArrowRight" || event.key === " ") { event.preventDefault(); deck.next(); }
   if (event.key === "ArrowLeft") { event.preventDefault(); deck.previous(); }
 });

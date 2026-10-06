@@ -15,6 +15,9 @@ checks = []
 
 def check(name, condition):
     checks.append({'name': name, 'passed': bool(condition)})
+    if not condition:
+        print(page.evaluate("() => ({size:[innerWidth,innerHeight],root:[document.documentElement.scrollWidth,document.documentElement.scrollHeight],rects:Object.fromEntries(['#lesson','#stage','.controls'].map(s=>[s,document.querySelector(s)?.getBoundingClientRect().toJSON()]))})"))
+        page.screenshot(path=str(OUT/'failure.png'), full_page=True)
     assert condition, name
 
 with sync_playwright() as p:
@@ -37,7 +40,7 @@ with sync_playwright() as p:
     page.keyboard.press('ArrowLeft')
     check('Left rewinds one cue', page.evaluate('lessonPresenter.snapshot.position === 0'))
     page.keyboard.press('ArrowRight')
-    page.wait_for_timeout(600)
+    page.wait_for_function('lessonPresenter.snapshot.position === 1 && !lessonPresenter.snapshot.running', timeout=5000)
     check('Natural completion stops after one cue', page.evaluate('lessonPresenter.snapshot.position === 1 && !lessonPresenter.snapshot.running'))
     page.keyboard.press('p')
     page.wait_for_timeout(60)
@@ -49,14 +52,14 @@ with sync_playwright() as p:
     page.keyboard.press('ArrowRight')
     page.wait_for_timeout(400)
     check('Target outline stays hidden while arrow grows', page.evaluate('Number(document.querySelector("#mem-arrow").dataset.progress) > 0 && Number(document.querySelector("#mem-arrow").dataset.progress) < 1 && Number(document.querySelector("#mem-focus").dataset.progress) === 0'))
-    page.wait_for_timeout(700)
+    page.wait_for_function('!lessonPresenter.snapshot.running', timeout=5000)
     check('Target outline completes after arrow arrives', page.evaluate('Number(document.querySelector("#mem-arrow").dataset.progress) === 1 && Number(document.querySelector("#mem-focus").dataset.progress) === 1'))
     page.evaluate('lessonPresenter.showSlide(3)')
     page.keyboard.press('ArrowRight')
-    page.wait_for_timeout(1250)
+    page.wait_for_function('!lessonPresenter.snapshot.running', timeout=5000)
     check('One action draws the full fd cycle only', page.evaluate('[...document.querySelectorAll("[data-cycle=fd]")].every(p => Number(p.dataset.progress) === 1) && [...document.querySelectorAll("[data-cycle=bk]")].every(p => Number(p.dataset.progress) === 0) && !lessonPresenter.snapshot.running'))
     page.keyboard.press('ArrowRight')
-    page.wait_for_timeout(1250)
+    page.wait_for_function('!lessonPresenter.snapshot.running', timeout=5000)
     check('Second action draws the full dashed bk cycle', page.evaluate('[...document.querySelectorAll("[data-cycle=bk]")].every(p => Number(p.dataset.progress) === 1 && getComputedStyle(p).strokeDasharray !== "none")'))
     page.keyboard.press('ArrowLeft')
     check('Left rewinds an entire cycle', page.evaluate('[...document.querySelectorAll("[data-cycle=bk]")].every(p => Number(p.dataset.progress) === 0) && [...document.querySelectorAll("[data-cycle=fd]")].every(p => Number(p.dataset.progress) === 1)'))
@@ -72,6 +75,7 @@ with sync_playwright() as p:
     check('Pop C, push D and E preserves stack order', stack_values == ['A','B','D','E'])
     for width, height in [(1980,1020),(1440,900),(844,390),(390,844)]:
         page.set_viewport_size({'width':width,'height':height})
+        page.evaluate('() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
         for i, slide in enumerate(['structure','state','reference','cycle','mapping']):
             page.evaluate('(i) => {lessonPresenter.showSlide(i, i === 0 ? 6 : 0); if (i !== 0) lessonPresenter.motion.finish();}',i)
             geometry = page.evaluate('''() => {
@@ -127,10 +131,11 @@ with sync_playwright() as p:
     check('Starter changes state before reference',page.evaluate('document.querySelector("#state-label").textContent === "更新後" && Number(document.querySelector("#state-arrow").dataset.progress) === 0'))
     page.keyboard.press('ArrowRight')
     check('Starter then shows the reference',page.evaluate('Number(document.querySelector("#state-arrow").dataset.progress) === 1'))
-    for theme in ['midnight-dark','classic-light']:
-        page.evaluate('(t) => document.documentElement.dataset.theme=t',theme)
+    for theme in ['midnight-dark','classic-light','formal-witch']:
+        page.locator('[data-theme-picker]').select_option(theme)
         for width, height in [(1980,1020),(1440,900),(844,390),(390,844)]:
             page.set_viewport_size({'width':width,'height':height})
+            page.evaluate('() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
             for i in range(2):
                 page.evaluate('(i) => {lessonPresenter.showSlide(i);lessonPresenter.motion.finish()}',i)
                 check(f'Starter {theme} {width} page {i}: fits',page.evaluate('document.documentElement.scrollWidth <= innerWidth+1 && document.querySelector(".controls").getBoundingClientRect().right <= innerWidth+1'))
@@ -154,6 +159,40 @@ with sync_playwright() as p:
     page.keyboard.press('ArrowLeft')
     check('Original key exchange example keeps previous navigation',page.locator('#title').inner_text()=='共通の出発点')
     check('Original example stays classic-light',page.evaluate("document.documentElement.dataset.theme === 'classic-light' && getComputedStyle(document.documentElement).getPropertyValue('--paper').trim() === '#efedeb'"))
+    page.locator('[data-theme-picker]').focus()
+    page.keyboard.press('ArrowRight')
+    check('Theme picker arrows do not navigate the legacy lesson', page.locator('#title').inner_text() == '共通の出発点')
+    page.locator('[data-theme-picker]').select_option('formal-witch')
+    page.reload()
+    check('Legacy theme survives reload', page.evaluate("document.documentElement.dataset.theme === 'formal-witch'"))
+    for folder, initial in [('examples/heap-memory', 'midnight-dark'), ('templates/html-lesson', 'midnight-dark'), ('examples/formal-witch', 'formal-witch')]:
+        base = (ROOT/folder/'index.html').as_uri()
+        page.goto(base+'?step=1&cue=1')
+        for theme in ['formal-witch', 'classic-light', 'midnight-dark']:
+            before = page.evaluate('JSON.stringify(lessonPresenter.snapshot)')
+            page.locator('[data-theme-picker]').select_option(theme)
+            check(f'{folder} {theme}: switching preserves scene state', before == page.evaluate('JSON.stringify(lessonPresenter.snapshot)'))
+            page.reload()
+            check(f'{folder} {theme}: reload restores theme and position', page.evaluate('(theme) => document.documentElement.dataset.theme === theme && lessonPresenter.snapshot.page === 1 && lessonPresenter.snapshot.position === 1 && !lessonPresenter.snapshot.running', theme))
+        page.locator('[data-theme-picker]').focus()
+        page.keyboard.press('ArrowRight')
+        check(f'{folder}: picker does not advance cue', page.evaluate('lessonPresenter.snapshot.position === 1 && !lessonPresenter.snapshot.running'))
+        page.goto(base+'?theme=unknown')
+        check(f'{folder}: invalid theme falls back to author default', page.evaluate('(initial) => document.documentElement.dataset.theme === initial', initial))
+    # The new specimen includes a static cover as well as both animated diagrams.
+    for theme in ['formal-witch', 'classic-light', 'midnight-dark']:
+        page.goto((ROOT/'examples/formal-witch/index.html').as_uri()+'?theme='+theme)
+        for width, height in [(1980,1020),(1440,900),(844,390),(390,844)]:
+            page.set_viewport_size({'width':width,'height':height})
+            page.evaluate('() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)))')
+            for i in range(3):
+                page.evaluate('(i) => {lessonPresenter.showSlide(i);lessonPresenter.motion.finish()}', i)
+                check(f'Specimen {theme} {width} page {i}: fits horizontally', page.evaluate('document.documentElement.scrollWidth <= innerWidth+1'))
+                check(f'Specimen {theme} {width} page {i}: picker inside viewport', page.locator('[data-theme-picker]').evaluate('(el) => {const r=el.getBoundingClientRect(); return r.left>=0 && r.right<=innerWidth+1 && r.bottom<=innerHeight+1;}'))
+                if width > 850:
+                    check(f'Specimen {theme} {width} page {i}: recording fits', page.evaluate('document.documentElement.scrollHeight <= innerHeight+1 && document.querySelector("#stage").getBoundingClientRect().bottom <= document.querySelector(".controls").getBoundingClientRect().top+1'))
+                if width in [1980,390]:
+                    page.screenshot(path=str(OUT/f'formal-study-{theme}-{width}-{i}.png'), full_page=True)
     check('All pages remain free of JavaScript errors',not errors)
     check('All local assets loaded',not failed_files)
     browser.close()

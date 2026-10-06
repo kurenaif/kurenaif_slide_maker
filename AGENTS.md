@@ -8,7 +8,7 @@
 
 `templates/html-lesson/` を `lessons/<lesson-id>/` にコピーする。教材は `index.html`、`lesson.css`、`lesson.js`、`storyboard.md` を持つ。複雑な図やシーンは教材内で分割してよい。
 
-`storyboard.md` は台本・画面仕様の正本。各ステップに「学習目標・画面・ナレーション・完成条件」を書く。先頭にテーマを指定し、HTMLの `data-theme` と一致させる。既定は `midnight-dark`、明るい資料には `classic-light` を選べる。
+`storyboard.md` は台本・画面仕様の正本。各ステップに「学習目標・画面・ナレーション・完成条件」を書く。先頭にテーマを指定し、HTMLの `data-theme` と一致させる。既定は `midnight-dark`、明るい資料には `classic-light`、白黒の魔女衣装に合わせる場合は `formal-witch` を選べる。操作部のテーマ選択と `?theme=` は閲覧時の上書きで、台本とHTMLには既定値を記す。
 
 ## 実装
 

@@ -1,6 +1,7 @@
 # 鍵交換の最小例
 
 - 出力: `examples/key-exchange-basics/index.html`
+- テーマ: `classic-light`（既定）。図の上で3テーマを切り替え、現在ページを維持する。
 - 対象者: 公開鍵交換を初めて見る人
 - 画面: 16:9、2ステップ
 - 操作: ← / → / Space、`?step=`で直接移動

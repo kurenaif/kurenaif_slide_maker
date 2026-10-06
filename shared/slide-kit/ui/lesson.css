@@ -10,7 +10,7 @@ button { font: inherit; cursor: pointer; }
 button:disabled { cursor: default; opacity: .35; }
 button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--gold); outline-offset: 5px; }
 [hidden] { display: none !important; }
-.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); }
 #lesson { width: 100%; max-width: 1980px; margin: 0 auto; padding: 28px 44px 24px; }
 .heading { height: 168px; }
 .topline { display: flex; align-items: center; justify-content: space-between; }

@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="lesson.css">
   <link rel="stylesheet" href="../../shared/slide-kit/ui/classic-light.css">
   <link rel="stylesheet" href="../../shared/slide-kit/ui/midnight-dark.css">
+  <link rel="stylesheet" href="../../shared/slide-kit/ui/formal-witch.css">
+  <link rel="stylesheet" href="../../shared/slide-kit/ui/theme-picker.css">
+  <script src="../../shared/slide-kit/core/themes.js"></script>
   <script>
     window.MathJax = { tex: { inlineMath: [["\\(", "\\)"]], displayMath: [["\\[", "\\]"]] } };
   </script>
@@ -19,6 +22,7 @@
       <div><div class="sk-eyebrow" id="eyebrow"></div><h1 id="title"></h1></div>
       <nav class="controls" aria-label="スライド操作"><button type="button" id="previous" aria-label="前へ">←</button><output id="status"></output><button type="button" id="next" aria-label="次へ">→</button></nav>
     </header>
+    <div class="theme-toolbar"><label class="theme-picker">テーマ <select data-theme-picker aria-label="カラーテーマ"></select></label></div>
     <section class="stage" aria-live="polite"><div id="scene"></div><aside class="sk-note" id="note"></aside></section>
   </main>
   <script src="lesson.js"></script>

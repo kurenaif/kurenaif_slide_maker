@@ -1,0 +1,11 @@
+.theme-picker { display: inline-flex; align-items: center; gap: 9px; color: var(--soft); font: 14px/1.4 system-ui, sans-serif; }
+.theme-picker select { max-width: 100%; min-height: 42px; padding: 8px 28px 8px 10px; border: 1px solid var(--border); border-radius: 5px; background: var(--panel); color: var(--text); font: inherit; cursor: pointer; }
+.theme-picker select:focus-visible { outline: 3px solid var(--metal); outline-offset: 3px; }
+@media (max-width: 850px) {
+  .controls .auxiliary { flex-wrap: wrap; }
+  .theme-picker { font-size: 12px; }
+  .theme-picker select { min-height: 44px; }
+  #lesson { padding-bottom: 210px; }
+}
+/* The legacy example has its navigation above the stage. */
+.lesson-shell > .theme-toolbar { width: min(1180px, 100%); margin: 16px auto 0; display: flex; justify-content: flex-end; }
